@@ -14,35 +14,31 @@ Two main functions are provided:
 
 - **`SIP.test`** — performs the autocorrelation test for a given order of dependence.  
 - **`SIP.acf`** — computes and plots autocovariance or autocorrelation with confidence intervals for a given sequence.
-
+- **`mean_sim`** — simulates sequences with frequently changed means.  
+- **`acf_sim`** — simulates noise under different structures and different distributions.
 ---
 
 ## File Structure
 
 | File | Description |
 |------|--------------|
-| `main.R` | Contains main functions `SIP.test` and `SIP.acf`. |
-| `helper.R` | Contains functions for estimating $W(\theta)$, autocovariance, and confidence intervals. |
-| `simulation_helpers.R` | Simulation setup for Type I error and power analysis under different noise structures. |
-| `numerical_analysis.R` | Simulation and real-data analysis (nanopore sequencing data). |
-| `AJO242_4fc438f9_0.fast5` | Example nanopore sequencing dataset (requires the `rhdf5` package to read). |
+| `R/sip.R` | Contains main functions `SIP.test` and `SIP.acf`. |
+| `R/helper.R` | Contains functions for estimating $W(\theta)$, autocovariance, and confidence intervals. |
+| `R/simulation_helpers.R` | Simulation setup for Type I error and power analysis under different noise structures. |
+| `Numerical/AJO242_4fc438f9_0.fast5` | Example nanopore sequencing dataset (requires the `rhdf5` package to read). |
+| `Numerical/numerical_analysis.R` | Simulation and real-data analysis (nanopore sequencing data). |
+  
 
 ---
 
 ## Installation and Usage
 
 ```r
-# 1. Clone or download this repository
-#    (in terminal or Git Bash)
-# git clone https://github.com/ziyang773/Autocorrelation-Test-under-Frequent-Mean-Shifts.git
-# setwd("Autocorrelation-Test-under-Frequent-Mean-Shifts")
+# 1 install the package
+devtools::install_github("ziyang773/SIP")
+library(SIP)
 
-# 2. Open R and source the main script
-source("main.R")
-
-# 3. Read the documentation inside main.R for parameter descriptions and usage notes.
-
-# 4. Example usage
+# 2. Example usage
 set.seed(111)
 x <- rnorm(100) + c(rep(1, 50), rep(0, 50))
 
@@ -56,7 +52,6 @@ SIP.acf(x, lag.max = 4, type = "correlation", estimation = FALSE, plot = TRUE)
 
 ## Notes
 
-- All helper scripts (`helper.R`, `simulation_helpers.R`, `numerical_analysis.R`) must be in the same working directory.  
 - For nanopore data analysis, install **`rhdf5`** from Bioconductor:
 - The dataset AJO242_4fc438f9_0.fast5 is used as an example of raw nanopore sequencing input.
 
