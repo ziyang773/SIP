@@ -19,3 +19,5 @@ Collate:
     'helpers.R'
     'simulation_helpers.R'
     'sip.R'
+URL: https://github.com/ziyang773/SIP
+BugReports: https://github.com/ziyang773/SIP/issues
