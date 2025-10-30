@@ -2,7 +2,7 @@
 
 Software accompanying the paper  
 **"Autocorrelation Test under Frequent Mean Shifts"**  
-by Liu, Z., Hao, N., Niu, Y. S., Xiao, H., & Ding, H. (2025).  [arXiv:2510.21047]
+by Liu, Z., Hao, N., Niu, Y. S., Xiao, H., & Ding, H. (2025).  [arXiv:2510.21047](https://arxiv.org/abs/2510.21047)
 
 ---
 
