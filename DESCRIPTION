@@ -1,0 +1,21 @@
+Package: SIP
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Ziyang", family = "Liu", email = "ziyang773@arizona.edu",
+           role = c("aut", "cre")),
+    person(given = "Ning", family = "Hao", role = "aut"),
+    person(given = "Yue", middle = "Selena", family = "Niu", role = "aut"),
+    person(given = "Han", family = "Xiao", role = "aut"),
+    person(given = "Hongxu", family = "Ding", role = "aut")
+    )
+Description: Autocorrelation Test under Frequent Mean. arXiv:2510.21047
+    Shifts.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Collate: 
+    'helpers.R'
+    'simulation_helpers.R'
+    'sip.R'

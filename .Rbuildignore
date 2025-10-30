@@ -1,0 +1,6 @@
+^SIP\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^data-raw$
+^inst/scripts$
+^README\.Rmd$
