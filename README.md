@@ -39,14 +39,27 @@ devtools::install_github("ziyang773/SIP")
 library(SIP)
 
 # 2. Example usage
-set.seed(111)
-x <- rnorm(100) + c(rep(1, 50), rep(0, 50))
+## 2.1 IID case
+set.seed(1)
+y <- rnorm(1000) + rep(c(rep(1, 50), rep(0, 50)), 10)
 
-# Perform SIP test for dependence order 4
-SIP.test(x, m = 4)
+SIP.test(y)
+Box.test(y) # for comparison with Box-Pierce test 
 
-# Plot autocorrelation with common CI width
-SIP.acf(x, lag.max = 4, type = "correlation", estimation = FALSE, plot = TRUE)
+SIP.acf(y)  # defaults: lag.max = 4, type = "correlation", estimation = FALSE
+acf(y) # for comparison with default acf
+
+## 2.2 MA(1) alternative with mean shifts (theta = 0.3)
+set.seed(1)
+e <- rnorm(1001)
+x <- e[-1] + 0.3 * e[-1001]
+y <- x + rep(c(rep(1, 50), rep(0, 50)), 10)
+
+SIP.test(y)
+Box.test(y) # for comparison with Box-Pierce test 
+
+SIP.acf(y)  # defaults: lag.max = 4, type = "correlation", estimation = FALSE
+acf(y) # for comparison with default acf
 ```
 ---
 
