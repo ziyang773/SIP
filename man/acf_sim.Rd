@@ -15,9 +15,11 @@ acf_sim(
 \arguments{
 \item{n}{Integer. Length of the output series. Default to \code{1000}.}
 
-\item{model}{Character. One of \code{"iid"}, \code{"AR"}, \code{"MA"}, \code{"ARMA"}. Default to \code{"iid"}.}
+\item{model}{Character. One of \code{"iid"}, \code{"AR"}, \code{"MA"}, \code{"ARMA"}.
+Default to \code{"iid"}.}
 
-\item{noise.type}{Character. Noise distribution passed to \code{noise_sim()} (e.g., \code{"normal"}). Default to \code{"normal"}.}
+\item{noise.type}{Character. Noise distribution passed to \code{noise_sim()} (e.g., \code{"normal"}).
+Default to \code{"normal"}.}
 
 \item{ar.coef}{Numeric. AR coefficients (vector for AR; scalar for ARMA(1,1)).}
 

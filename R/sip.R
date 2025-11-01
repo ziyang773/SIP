@@ -27,7 +27,7 @@
 #' set.seed(1)
 #' y <- rnorm(1000) + rep(c(rep(1, 50), rep(0, 50)),10)
 #' SIP.test(y)
-#' Box.test(y) # for comparison with Box-Pierce test which is biased under piecewise means
+#' Box.test(y) # for comparison with Box-Pierce test
 #'
 #' ## MA(1) alternative (theta = 0.3)
 #' set.seed(1)

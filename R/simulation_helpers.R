@@ -66,8 +66,10 @@ noise_sim <- function(n, type="normal"){
 #' \code{"MA"}, or \code{"ARMA"} (ARMA(1,1)) models with selectable noise type.
 #'
 #' @param n Integer. Length of the output series. Default to \code{1000}.
-#' @param model Character. One of \code{"iid"}, \code{"AR"}, \code{"MA"}, \code{"ARMA"}. Default to \code{"iid"}.
-#' @param noise.type Character. Noise distribution passed to \code{noise_sim()} (e.g., \code{"normal"}). Default to \code{"normal"}.
+#' @param model Character. One of \code{"iid"}, \code{"AR"}, \code{"MA"}, \code{"ARMA"}.
+#' Default to \code{"iid"}.
+#' @param noise.type Character. Noise distribution passed to \code{noise_sim()} (e.g., \code{"normal"}).
+#' Default to \code{"normal"}.
 #' @param ar.coef Numeric. AR coefficients (vector for AR; scalar for ARMA(1,1)).
 #' @param ma.coef Numeric. MA coefficients (vector for MA; scalar for ARMA(1,1)).
 #'
