@@ -13,11 +13,11 @@ acf_sim(
 )
 }
 \arguments{
-\item{n}{Integer. Length of the output series.}
+\item{n}{Integer. Length of the output series. Default to \code{1000}.}
 
-\item{model}{Character. One of \code{"iid"}, \code{"AR"}, \code{"MA"}, \code{"ARMA"}.}
+\item{model}{Character. One of \code{"iid"}, \code{"AR"}, \code{"MA"}, \code{"ARMA"}. Default to \code{"iid"}.}
 
-\item{noise.type}{Character. Noise distribution passed to \code{noise_sim()} (e.g., \code{"normal"}).}
+\item{noise.type}{Character. Noise distribution passed to \code{noise_sim()} (e.g., \code{"normal"}). Default to \code{"normal"}.}
 
 \item{ar.coef}{Numeric. AR coefficients (vector for AR; scalar for ARMA(1,1)).}
 
@@ -27,9 +27,14 @@ acf_sim(
 A numeric vector of length \code{n}.
 }
 \description{
-Generates a length-\code{n} series under one of \code{"iid"}, \code{"AR"},
+acf_sim generates a length-\code{n} series under one of \code{"iid"}, \code{"AR"},
 \code{"MA"}, or \code{"ARMA"} (ARMA(1,1)) models with selectable noise type.
 }
+\examples{
+x <- acf_sim(n=1000, model='MA', ma.coef=0.3)
+acf(x)
+
+}
 \seealso{
-\code{\link{noise_sim}}, \code{\link{SIP.acf}}, \code{\link{SIP.test}}
+\code{\link{SIP.acf}}, \code{\link{SIP.test}}
 }

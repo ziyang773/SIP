@@ -1,19 +1,23 @@
 #' Simulate Piecewise-Constant Mean Structure with Random Shifts
 #'
-#' Generates a length-\code{n} vector of segment means for a time series with
+#' mean_sim generates a length-\code{n} vector of segment means for a time series with
 #' \code{n.seg} contiguous segments, each of length at least \code{min.seg.len}.
 #' Segment means are drawn i.i.d. from a continuous uniform distribution over
 #' \code{mean.range}. The result can be added to noise to create data with
 #' frequent mean shifts.
 #'
-#' @param n Integer. Total length of the simulated sequence.
-#' @param n.seg Integer. Number of contiguous segments.
-#' @param min.seg.len Integer. Minimum length of each segment.
+#' @param n Integer. Total length of the simulated sequence. Default to \code{1000}.
+#' @param n.seg Integer. Number of contiguous segments. Default to \code{10}.
+#' @param min.seg.len Integer. Minimum length of each segment. Default to \code{20}.
 #' @param mean.range Numeric length-2 vector \code{(low, high)} giving the range
-#'   from which segment means are drawn (uniformly).
+#'   from which segment means are drawn (uniformly) .Default to \code{c(-10, 10)}.
 #'
 #' @return A numeric vector of length \code{n} containing the piecewise-constant
 #'   mean structure; \code{NULL} if inputs are infeasible.
+#'
+#' @examples
+#' x <- mean_sim(1000)
+#' plot(x)
 #'
 #' @export
 mean_sim <- function(n=1000, n.seg=10, min.seg.len=20, mean.range=c(-10, 10)){
@@ -58,18 +62,23 @@ noise_sim <- function(n, type="normal"){
 ############################################## autocorrelation ##################################################
 #' Simulate Noise with Target ACF Structure
 #'
-#' Generates a length-\code{n} series under one of \code{"iid"}, \code{"AR"},
+#' acf_sim generates a length-\code{n} series under one of \code{"iid"}, \code{"AR"},
 #' \code{"MA"}, or \code{"ARMA"} (ARMA(1,1)) models with selectable noise type.
 #'
-#' @param n Integer. Length of the output series.
-#' @param model Character. One of \code{"iid"}, \code{"AR"}, \code{"MA"}, \code{"ARMA"}.
-#' @param noise.type Character. Noise distribution passed to \code{noise_sim()} (e.g., \code{"normal"}).
+#' @param n Integer. Length of the output series. Default to \code{1000}.
+#' @param model Character. One of \code{"iid"}, \code{"AR"}, \code{"MA"}, \code{"ARMA"}. Default to \code{"iid"}.
+#' @param noise.type Character. Noise distribution passed to \code{noise_sim()} (e.g., \code{"normal"}). Default to \code{"normal"}.
 #' @param ar.coef Numeric. AR coefficients (vector for AR; scalar for ARMA(1,1)).
 #' @param ma.coef Numeric. MA coefficients (vector for MA; scalar for ARMA(1,1)).
 #'
 #' @return A numeric vector of length \code{n}.
 #'
-#' @seealso \code{\link{noise_sim}}, \code{\link{SIP.acf}}, \code{\link{SIP.test}}
+#' @seealso \code{\link{SIP.acf}}, \code{\link{SIP.test}}
+#'
+#' @examples
+#' x <- acf_sim(n=1000, model='MA', ma.coef=0.3)
+#' acf(x)
+#'
 #' @importFrom stats filter na.omit
 #' @export
 acf_sim <- function(n=1000, model="iid", noise.type="normal", ar.coef=NULL, ma.coef=NULL){

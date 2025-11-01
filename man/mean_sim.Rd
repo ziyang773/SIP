@@ -7,23 +7,28 @@
 mean_sim(n = 1000, n.seg = 10, min.seg.len = 20, mean.range = c(-10, 10))
 }
 \arguments{
-\item{n}{Integer. Total length of the simulated sequence.}
+\item{n}{Integer. Total length of the simulated sequence. Default to \code{1000}.}
 
-\item{n.seg}{Integer. Number of contiguous segments.}
+\item{n.seg}{Integer. Number of contiguous segments. Default to \code{10}.}
 
-\item{min.seg.len}{Integer. Minimum length of each segment.}
+\item{min.seg.len}{Integer. Minimum length of each segment. Default to \code{20}.}
 
 \item{mean.range}{Numeric length-2 vector \code{(low, high)} giving the range
-from which segment means are drawn (uniformly).}
+from which segment means are drawn (uniformly) .Default to \code{c(-10, 10)}.}
 }
 \value{
 A numeric vector of length \code{n} containing the piecewise-constant
 mean structure; \code{NULL} if inputs are infeasible.
 }
 \description{
-Generates a length-\code{n} vector of segment means for a time series with
+mean_sim generates a length-\code{n} vector of segment means for a time series with
 \code{n.seg} contiguous segments, each of length at least \code{min.seg.len}.
 Segment means are drawn i.i.d. from a continuous uniform distribution over
 \code{mean.range}. The result can be added to noise to create data with
 frequent mean shifts.
+}
+\examples{
+x <- mean_sim(1000)
+plot(x)
+
 }

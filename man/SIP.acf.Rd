@@ -6,10 +6,10 @@
 \usage{
 SIP.acf(
   x,
-  lag.max,
+  lag.max = 4,
   type = "correlation",
   plot = TRUE,
-  estimation = TRUE,
+  estimation = FALSE,
   ci.level = 0.95,
   main = NULL
 )
@@ -17,20 +17,20 @@ SIP.acf(
 \arguments{
 \item{x}{Numeric vector. Input time series (same role as \code{seq} in \code{\link{SIP.test}}).}
 
-\item{lag.max}{Integer (\eqn{\ge} 0). Maximum lag to estimate/display.}
+\item{lag.max}{Integer (\eqn{\ge} 0). Maximum lag to estimate/display. Default to \code{4}.}
 
 \item{type}{Character. Either \code{"correlation"} or \code{"covariance"}.
-Defaults to \code{"correlation"}.}
+Default to \code{"correlation"}.}
 
 \item{plot}{Logical. If \code{TRUE}, produce the ACF-style plot with CI bands.
-Defaults to \code{TRUE}.}
+Default to \code{TRUE}.}
 
-\item{estimation}{Logical. If \code{TRUE}, uses the same \code{lag.max} to compute
-all lags (estimation-focused). If \code{FALSE}, uses lag-specific Y vector to compute each lag’s
-autocovariance but yields the \strong{same} confidence interval width across lags. Defaults to \code{TRUE}.}
+\item{estimation}{Logical. If \code{TRUE}, use the same \code{lag.max} to compute
+all lags (estimation-focused). If \code{FALSE}, use lag-specific Y vector to compute each lag’s
+autocovariance but yield the \strong{same} confidence interval width across lags. Default to \code{TRUE}.}
 
 \item{ci.level}{Numeric in (0, 1). Confidence level for CI bands when \code{plot = TRUE}.
-Defaults to \code{0.95}.}
+Default to \code{0.95}.}
 
 \item{main}{Optional character. Plot title.}
 }
@@ -47,25 +47,34 @@ A list with components:
 If \code{plot = TRUE}, this object is returned \emph{invisibly} after plotting.
 }
 \description{
-Computes (and optionally plots) sample autocorrelation or autocovariance
+SIP.acf computes (and optionally plots) sample autocorrelation or autocovariance
 up to \code{lag.max}. Two modes are provided:
 \itemize{
-\item \strong{Estimation-focused} (\code{estimation = TRUE}): uses a common
+\item \strong{Estimation-focused} (\code{estimation = TRUE}): use a common
 \code{lag.max} for estimating all lags, typically yielding more precise
 estimates;
-\item \strong{Inference-focused} (\code{estimation = FALSE}): uses lag-specific
+\item \strong{Inference-focused} (\code{estimation = FALSE}): use lag-specific
 windows for each lag, producing the same CI width across lags.
 }
 }
 \examples{
+## IID case
 set.seed(1)
-x <- rnorm(100) + c(rep(1, 50), rep(0, 50))
-# Estimation-focused ACF (common lag.max for all lags)
-SIP.acf(x, lag.max = 20, type = "correlation", estimation = TRUE, plot = TRUE)
-# Inference-focused ACF (same CI width across lags)
-SIP.acf(x, lag.max = 20, type = "correlation", estimation = FALSE, plot = TRUE)
+y <- rnorm(1000) + rep(c(rep(1, 50), rep(0, 50)), 10)
+SIP.acf(y)  # defaults: lag.max = 4, type = "correlation", estimation = FALSE
+acf(y) # for comparison with default acf
+
+## MA(1) alternative with mean shifts (theta = 0.3)
+set.seed(1)
+e <- rnorm(1001)
+x <- e[-1] + 0.3 * e[-1001]
+y <- x + rep(c(rep(1, 50), rep(0, 50)), 10)
+SIP.acf(y)
 
 }
+\references{
+Liu, Z., Hao, N., Niu, Y. S., Xiao, H., & Ding, H. (2025) Autocorrelation Test under Frequent Mean. arXiv:2510.21047
+}
 \seealso{
-\code{\link{SIP.test}}, \code{\link{ACF_est}}, \code{\link{ACF_inf}}
+\code{\link{SIP.test}}
 }

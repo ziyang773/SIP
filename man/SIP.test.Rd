@@ -9,14 +9,18 @@ SIP.test(seq, m = 1, EVE = TRUE, warnings = TRUE)
 \arguments{
 \item{seq}{Numeric vector. The input time series.}
 
-\item{m}{Integer. Maximum lag order to test (lags 1 through \code{m}).}
+\item{m}{Integer. Maximum lag order to test (lags 1 through \code{m}).
+Default to \code{1}.}
 
-\item{EVE}{Logical. If \code{TRUE}, uses \code{w2} from \code{W_theta_cal()} to estimate
-\eqn{W(\theta)/(n\,\gamma_0)}; if \code{FALSE}, uses the difference ratio
-\eqn{(Y_{m+2} - Y_{m+1})/\gamma_0(Y)} (\code{w1} estimator).}
+\item{EVE}{Logical. If \code{TRUE}, use \code{w2} to estimate
+\eqn{W(\theta)/(n\gamma_0)}{W(theta)/(n*gamma_0)}; if \code{FALSE}, use
+\code{w1} estimator.
+Default to \code{TRUE}.
+See Liu, Z., Hao, N., Niu, Y. S., Xiao, H., & Ding, H. (2025) Autocorrelation Test under Frequent Mean for detail.}
 
-\item{warnings}{Logical. If \code{TRUE}, warns and returns
-\code{p.value = 0} and \code{statistic = Inf} when the variance estimate is negative.}
+\item{warnings}{Logical. If \code{TRUE}, issue a warning and return
+\code{p.value = 0} and \code{statistic = Inf} when the variance estimate is negative.
+Default to \code{TRUE}.}
 }
 \value{
 A list with:
@@ -29,9 +33,18 @@ A list with:
 SIP.test performs a Ljung–Box like autocorrelation test under frequent mean changes.
 }
 \examples{
+## IID case
 set.seed(1)
-x <- rnorm(100) + c(rep(1, 50), rep(0, 50))
-SIP.test(x, m = 4)
+y <- rnorm(1000) + rep(c(rep(1, 50), rep(0, 50)),10)
+SIP.test(y)
+Box.test(y) # for comparison with Box-Pierce test which is biased under piecewise means
+
+## MA(1) alternative (theta = 0.3)
+set.seed(1)
+e <- rnorm(1001)
+x <- e[-1] + 0.3 * e[-1001]
+y <- x + rep(c(rep(1, 50), rep(0, 50)),10)
+SIP.test(y)
 
 }
 \references{

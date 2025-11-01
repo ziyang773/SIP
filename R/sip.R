@@ -4,11 +4,15 @@
 #'
 #' @param seq Numeric vector. The input time series.
 #' @param m Integer. Maximum lag order to test (lags 1 through \code{m}).
-#' @param EVE Logical. If \code{TRUE}, uses \code{w2} from \code{W_theta_cal()} to estimate
-#'   \eqn{W(\theta)/(n\,\gamma_0)}; if \code{FALSE}, uses the difference ratio
-#'   \eqn{(Y_{m+2} - Y_{m+1})/\gamma_0(Y)} (\code{w1} estimator).
-#' @param warnings Logical. If \code{TRUE}, warns and returns
+#'   Default to \code{1}.
+#' @param EVE Logical. If \code{TRUE}, use \code{w2} to estimate
+#'   \eqn{W(\theta)/(n\gamma_0)}{W(theta)/(n*gamma_0)}; if \code{FALSE}, use
+#'   \code{w1} estimator.
+#'   Default to \code{TRUE}.
+#'   See Liu, Z., Hao, N., Niu, Y. S., Xiao, H., & Ding, H. (2025) Autocorrelation Test under Frequent Mean for detail.
+#' @param warnings Logical. If \code{TRUE}, issue a warning and return
 #'   \code{p.value = 0} and \code{statistic = Inf} when the variance estimate is negative.
+#'   Default to \code{TRUE}.
 #'
 #' @return A list with:
 #' \describe{
@@ -19,9 +23,18 @@
 #' @references Liu, Z., Hao, N., Niu, Y. S., Xiao, H., & Ding, H. (2025) Autocorrelation Test under Frequent Mean. arXiv:2510.21047
 #'
 #' @examples
+#' ## IID case
 #' set.seed(1)
-#' x <- rnorm(100) + c(rep(1, 50), rep(0, 50))
-#' SIP.test(x, m = 4)
+#' y <- rnorm(1000) + rep(c(rep(1, 50), rep(0, 50)),10)
+#' SIP.test(y)
+#' Box.test(y) # for comparison with Box-Pierce test which is biased under piecewise means
+#'
+#' ## MA(1) alternative (theta = 0.3)
+#' set.seed(1)
+#' e <- rnorm(1001)
+#' x <- e[-1] + 0.3 * e[-1001]
+#' y <- x + rep(c(rep(1, 50), rep(0, 50)),10)
+#' SIP.test(y)
 #'
 #' @export
 SIP.test <- function(seq, m=1, EVE=TRUE, warnings=TRUE){
@@ -74,27 +87,27 @@ SIP.test <- function(seq, m=1, EVE=TRUE, warnings=TRUE){
 
 #' SIP Autocorrelation / Autocovariance (with optional plot)
 #'
-#' Computes (and optionally plots) sample autocorrelation or autocovariance
+#' SIP.acf computes (and optionally plots) sample autocorrelation or autocovariance
 #' up to \code{lag.max}. Two modes are provided:
 #' \itemize{
-#'   \item \strong{Estimation-focused} (\code{estimation = TRUE}): uses a common
+#'   \item \strong{Estimation-focused} (\code{estimation = TRUE}): use a common
 #'   \code{lag.max} for estimating all lags, typically yielding more precise
 #'   estimates;
-#'   \item \strong{Inference-focused} (\code{estimation = FALSE}): uses lag-specific
+#'   \item \strong{Inference-focused} (\code{estimation = FALSE}): use lag-specific
 #'   windows for each lag, producing the same CI width across lags.
 #' }
 #'
 #' @param x Numeric vector. Input time series (same role as \code{seq} in \code{\link{SIP.test}}).
-#' @param lag.max Integer (\eqn{\ge} 0). Maximum lag to estimate/display.
+#' @param lag.max Integer (\eqn{\ge} 0). Maximum lag to estimate/display. Default to \code{4}.
 #' @param type Character. Either \code{"correlation"} or \code{"covariance"}.
-#'   Defaults to \code{"correlation"}.
+#'   Default to \code{"correlation"}.
 #' @param plot Logical. If \code{TRUE}, produce the ACF-style plot with CI bands.
-#'   Defaults to \code{TRUE}.
-#' @param estimation Logical. If \code{TRUE}, uses the same \code{lag.max} to compute
-#'   all lags (estimation-focused). If \code{FALSE}, uses lag-specific Y vector to compute each lag’s
-#'   autocovariance but yields the **same** confidence interval width across lags. Defaults to \code{TRUE}.
+#'   Default to \code{TRUE}.
+#' @param estimation Logical. If \code{TRUE}, use the same \code{lag.max} to compute
+#'   all lags (estimation-focused). If \code{FALSE}, use lag-specific Y vector to compute each lag’s
+#'   autocovariance but yield the **same** confidence interval width across lags. Default to \code{TRUE}.
 #' @param ci.level Numeric in (0, 1). Confidence level for CI bands when \code{plot = TRUE}.
-#'   Defaults to \code{0.95}.
+#'   Default to \code{0.95}.
 #' @param main Optional character. Plot title.
 #'
 #' @return A list with components:
@@ -108,17 +121,25 @@ SIP.test <- function(seq, m=1, EVE=TRUE, warnings=TRUE){
 #' }
 #' If \code{plot = TRUE}, this object is returned \emph{invisibly} after plotting.
 #'
-#' @examples
-#' set.seed(1)
-#' x <- rnorm(100) + c(rep(1, 50), rep(0, 50))
-#' # Estimation-focused ACF (common lag.max for all lags)
-#' SIP.acf(x, lag.max = 20, type = "correlation", estimation = TRUE, plot = TRUE)
-#' # Inference-focused ACF (same CI width across lags)
-#' SIP.acf(x, lag.max = 20, type = "correlation", estimation = FALSE, plot = TRUE)
+#' @references Liu, Z., Hao, N., Niu, Y. S., Xiao, H., & Ding, H. (2025) Autocorrelation Test under Frequent Mean. arXiv:2510.21047
 #'
-#' @seealso \code{\link{SIP.test}}, \code{\link{ACF_est}}, \code{\link{ACF_inf}}
+#' @examples
+#' ## IID case
+#' set.seed(1)
+#' y <- rnorm(1000) + rep(c(rep(1, 50), rep(0, 50)), 10)
+#' SIP.acf(y)  # defaults: lag.max = 4, type = "correlation", estimation = FALSE
+#' acf(y) # for comparison with default acf
+#'
+#' ## MA(1) alternative with mean shifts (theta = 0.3)
+#' set.seed(1)
+#' e <- rnorm(1001)
+#' x <- e[-1] + 0.3 * e[-1001]
+#' y <- x + rep(c(rep(1, 50), rep(0, 50)), 10)
+#' SIP.acf(y)
+#'
+#' @seealso \code{\link{SIP.test}}
 #' @export
-SIP.acf <- function(x, lag.max, type="correlation", plot=TRUE, estimation=TRUE, ci.level=0.95, main=NULL){
+SIP.acf <- function(x, lag.max=4, type="correlation", plot=TRUE, estimation=FALSE, ci.level=0.95, main=NULL){
   if (estimation == TRUE){
     ACF_est(x, m.max=lag.max, type=type, plot=plot, ci.level=ci.level, main=main)
   } else{
@@ -127,7 +148,7 @@ SIP.acf <- function(x, lag.max, type="correlation", plot=TRUE, estimation=TRUE, 
 }
 
 
-ACF_est <- function(x, m.max, type="correlation", plot=TRUE, ci.level=0.95, main=NULL){
+ACF_est <- function(x, m.max=4, type="correlation", plot=TRUE, ci.level=0.95, main=NULL){
   # m+2 <=L/2
   # get seq length and m+1 m+2 for further computation
   n=length(x)
@@ -182,7 +203,7 @@ ACF_est <- function(x, m.max, type="correlation", plot=TRUE, ci.level=0.95, main
 }
 
 
-ACF_inf <- function(x, m.max, type="correlation", plot=TRUE, ci.level=0.95, main=NULL){
+ACF_inf <- function(x, m.max=4, type="correlation", plot=TRUE, ci.level=0.95, main=NULL){
   # m+2 <=L/2
   # get seq length and m+1 m+2 for further computation
   n=length(x)
