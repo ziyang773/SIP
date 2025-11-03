@@ -40,7 +40,7 @@ library(SIP)
 
 # 2. Example usage
 ## 2.1 IID case
-set.seed(1)
+set.seed(2025)
 y <- rnorm(1000) + rep(c(rep(1, 50), rep(0, 50)), 10)
 
 SIP.test(y)
@@ -50,7 +50,7 @@ SIP.acf(y)  # defaults: lag.max = 4, type = "correlation", estimation = FALSE
 acf(y) # for comparison with default acf
 
 ## 2.2 MA(1) alternative with mean shifts (theta = 0.3)
-set.seed(1)
+set.seed(2025)
 e <- rnorm(1001)
 x <- e[-1] + 0.3 * e[-1001]
 y <- x + rep(c(rep(1, 50), rep(0, 50)), 10)
