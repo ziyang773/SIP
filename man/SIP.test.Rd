@@ -34,13 +34,13 @@ SIP.test performs a Ljung–Box like autocorrelation test under frequent mean ch
 }
 \examples{
 ## IID case
-set.seed(1)
+set.seed(2025)
 y <- rnorm(1000) + rep(c(rep(1, 50), rep(0, 50)),10)
 SIP.test(y)
 Box.test(y) # for comparison with Box-Pierce test
 
 ## MA(1) alternative (theta = 0.3)
-set.seed(1)
+set.seed(2025)
 e <- rnorm(1001)
 x <- e[-1] + 0.3 * e[-1001]
 y <- x + rep(c(rep(1, 50), rep(0, 50)),10)
