@@ -9,8 +9,7 @@ Authors@R: c(
     person(given = "Han", family = "Xiao", role = "aut"),
     person(given = "Hongxu", family = "Ding", role = "aut")
     )
-Description: Autocorrelation Test under Frequent Mean. arXiv:2510.21047
-    Shifts.
+Description: Autocorrelation Test under Frequent Mean Shifts. arXiv:2510.21047 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
