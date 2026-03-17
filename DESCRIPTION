@@ -1,5 +1,5 @@
 Package: SIP
-Title: What the Package Does (One Line, Title Case)
+Title: Provides a shift-immune test for serial correlation in change-point models
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Ziyang", family = "Liu", email = "ziyang773@arizona.edu",
