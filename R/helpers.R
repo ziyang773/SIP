@@ -1,4 +1,4 @@
-########################## helper functionns to main.R ########################
+########################## helper functions to sip.R ########################
 # W_theta calculator which return Y_k, the estimation of W(theta)/2n, Sigma and the ratio W(theta)/2n/Sigma
 # pos1 = m.max+2 where m.max is the order of dependence
 W_theta_cal <- function(x, pos1){
